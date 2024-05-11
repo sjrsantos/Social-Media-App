@@ -47,7 +47,7 @@ export default function App() {
         <Loading />
       ) : (
         <Routes>
-          <Route path="/Social-Media-App" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
 
           <Route path="/posts" element={<PostListPage />} />
           <Route path="/posts/add" element={<PostFormPage />} />
