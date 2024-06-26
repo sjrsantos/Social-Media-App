@@ -16,11 +16,12 @@ export default function Post({
   picture,
   likes,
   dislikes,
+  removable, // Adicione a propriedade `removable` aqui
 }) {
   const { allowLikes, allowDislikes } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 
-  const handlelikesClick = async (event) => {
+  const handleLikesClick = async (event) => {
     event.preventDefault();
     dispatch(likePost(id));
 
@@ -101,7 +102,7 @@ export default function Post({
             <button
               title="I like this"
               className="like"
-              onClick={handlelikesClick}
+              onClick={handleLikesClick}
             >
               <BiLike /> {likes}
             </button>
@@ -118,9 +119,11 @@ export default function Post({
         </div>
       )}
 
-      <button className="remove" onClick={handleRemoveClick}>
-        Remove
-      </button>
+      {removable !== false && ( // Renderizar o botão apenas se `removable` for `true` ou `undefined`
+        <button className="remove" onClick={handleRemoveClick}>
+          Remove
+        </button>
+      )}
     </Link>
   );
 }

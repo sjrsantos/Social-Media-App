@@ -15,7 +15,6 @@ import { db } from "./config";
  */
 export async function load() {
   const querySnapshot = await getDocs(query(collection(db, "posts")));
-
   return processQuerySnapshot(querySnapshot);
 }
 
@@ -24,9 +23,8 @@ export async function load() {
  * @returns {Promise} - A promise that resolves with the data (posts promoted) from the database.
  *
  */
-export async function loadPrometed() {
+export async function loadPromoted() {
   const q = query(collection(db, "posts"), where("promote", "==", true));
-
   const querySnapshot = await getDocs(q);
   return processQuerySnapshot(querySnapshot);
 }
@@ -44,6 +42,7 @@ function processQuerySnapshot(querySnapshot) {
       data.push({
         ...doc.data(),
         id: doc.id,
+        removable: doc.data().removable !== false, // Set removable to true if not explicitly false
       });
     });
   } catch (error) {
@@ -65,6 +64,7 @@ export async function loadById(id) {
     if (docSnap.exists()) {
       return {
         ...docSnap.data(),
+        removable: docSnap.data().removable !== false, // Set removable to true if not explicitly false
       };
     }
   } catch (error) {
